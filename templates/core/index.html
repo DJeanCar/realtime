@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+	<script>
+	$(document).ready(function(){
+
+		socket.on("nombreDesdeServidor", recibirMensaje);
+		
+		$('#button').on('click',enviarMensaje);
+	
+		function enviarMensaje(){
+			$('#nombre').hide();
+			socket.emit('nuevoNombre', $('#nombre').val() );
+		}
+
+		function recibirMensaje(datosServidor){
+			$("#formulario label").text("Acaba de Entrar " +
+					datosServidor);
+		}
+	});
+	</script>
+
+	{% endblock %}
+
+{% block content %}
+
+	<h2>Pagina Principal</h2>
+	<form id = "formulario">
+		<label>¿Cual es tu nombre?</label>
+		<input type="text" id="nombre" 
+			placeholder="Tu nombre completo" 
+			required /><br>
+		<button id="button">Enviar</button>
+	</form>
+
+{% endblock %}
